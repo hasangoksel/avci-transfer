@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AircraftCompany;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
-class AircraftCompanyController extends Controller
+class ReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $company = AircraftCompany::all();
-        if(!$company){
-            return response()->json(['error'=>'Uçak Firması Bulunamadı!'], 404);
-        }
-        return response()->json($company);
+        //
     }
 
     /**
@@ -38,7 +34,7 @@ class AircraftCompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AircraftCompany $aircraftCompany)
+    public function show(Reservation $reservation)
     {
         //
     }
@@ -46,7 +42,7 @@ class AircraftCompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AircraftCompany $aircraftCompany)
+    public function edit(Reservation $reservation)
     {
         //
     }
@@ -54,7 +50,7 @@ class AircraftCompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AircraftCompany $aircraftCompany)
+    public function update(Request $request, Reservation $reservation)
     {
         //
     }
@@ -62,7 +58,7 @@ class AircraftCompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AircraftCompany $aircraftCompany)
+    public function destroy(Reservation $reservation)
     {
         //
     }

@@ -14,6 +14,30 @@ class ServiceController extends Controller
     {
         //
     }
+    public function indexByAirport()
+    {
+       $startAirport = Service::where('startingPoint', 'Dalaman Havalimanı')->pluck('arrivalPoint');
+        if ($startAirport->isEmpty()) {
+            return response()->json(['error' => 'Başlangıç Noktası Hatalı!'], 404);
+        }
+        else{
+            return response()->json(['startAirport' => $startAirport]);
+        }
+    }
+    public function pointByPrice(Request $request)
+    {
+        $startingPoint = $request->input('startingPoint');
+        $arrivalPoint = $request->input('arrivalPoint');
+        $price = Service::where('startingPoint', $startingPoint)
+                        ->where('arrivalPoint', $arrivalPoint)
+                        ->pluck('adultFare');
+
+        if($price->isEmpty()) {
+            return response()->json(['error' => 'Hata!'], 404);
+        } else {
+            return response()->json(['price'=> $price]);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

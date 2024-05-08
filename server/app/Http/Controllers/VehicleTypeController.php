@@ -14,6 +14,16 @@ class VehicleTypeController extends Controller
     {
         //
     }
+    public function indexByServiceType($type)
+    {
+       $vehicle = VehicleType::where('service_type',$type)->get();
+        if ($vehicle->isEmpty()) {
+            return response()->json(['error' => 'Servis Tipi Bulunamadı!'], 404);
+        }
+        else{
+            return response()->json(['service_type' => $vehicle]);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
