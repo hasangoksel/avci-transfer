@@ -18,16 +18,23 @@ return new class extends Migration
             $table->string('mail');
             $table->string('phone');
             $table->boolean('isAdult');
-            $table->bigInteger('vehicleTypeID');
+            $table->foreignId('vehicleTypeID');
             $table->datetime('dateTime');
-            $table->bigInteger('servicesID');
+            $table->foreignId('servicesID');
             $table->boolean('contractConfirmation');
             $table->string('flightNumber');
             $table->time('landingTime');
-            $table->bigInteger('companyID');
+            $table->foreignId('companyID');
             $table->string('pickUpAdress');
             $table->boolean('reservationConfirmation');
+            $table->decimal('totalPrice',10,2);
             $table->timestamps();
+
+            //Foreign Key tanımlama
+            $table->foreign('vehicleTypeID')->references('vehicleTypeID')->on('vehicle_types');
+            $table->foreign('servicesID')->references('servicesID')->on('services');
+            $table->foreign('companyID')->references('companyID')->on('aircraft_companies');
+
         });
     }
 
