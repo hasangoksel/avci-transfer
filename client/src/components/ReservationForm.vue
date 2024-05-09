@@ -135,7 +135,11 @@ export default {
                 email: '',
                 tel: '',
                 age: '',
+<<<<<<< HEAD
             }));
+=======
+                }));
+>>>>>>> main
         },
     },
 
