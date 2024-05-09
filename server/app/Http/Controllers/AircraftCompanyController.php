@@ -12,7 +12,7 @@ class AircraftCompanyController extends Controller
      */
     public function index()
     {
-        $company = AircraftCompany::all();
+        $company = AircraftCompany::all()->pluck('companyName');
         if(!$company){
             return response()->json(['error'=>'Uçak Firması Bulunamadı!'], 404);
         }
