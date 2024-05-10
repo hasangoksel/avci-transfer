@@ -7,7 +7,7 @@
             <div class="reservation-form-nav__stage-four"></div>
             <div class="reservation-form-nav__stage-five"></div>
         </div>
-        <form class="reservation-form">
+        <form class="reservation-form" @submit.prevent="cFourClick">
             <div class="reservation-form__data">
                 <div v-if="cOne" class="reservation-form__data__stage-one">
                     <h3>Rezervasyon Bilgileri</h3>
@@ -110,7 +110,7 @@
                         <label for="flightTime">Uçuş Saati</label>
                         <input type="time" name="flightTime" id="flightTime" v-model="reservationData.flightTime">
                     </div>
-                    <span class="c-button" @click="cFourClick">Devam Et</span>
+                    <button type="submit" class="c-button" >Devam Et</button>
                 </div>
                 <div v-if="cFive" class="reservation-form__data__stage-five">
                     <h3>Rezervasyon Onayı</h3>
@@ -252,6 +252,10 @@ export default {
             this.reservationData.price = this.price * this.count;
             this.reservationData.travellers = this.travellers;
             console.log(this.reservationData);
+            axios.post('http://127.0.0.1:8000/api/reservation', this.reservationData)
+              .then(res => {
+                console.log(res.data);
+            });
         },
         cFiveClick(){
             this.cOne = true;

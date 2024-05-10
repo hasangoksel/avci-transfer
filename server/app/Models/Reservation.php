@@ -41,4 +41,21 @@ class Reservation extends Model
     {
         return $this->hasOne(AircraftCompany::class, 'companyID', 'companyID');
     }
+
+    protected $fillable = [
+        'reservationNo',
+        'nameSurname',
+        'mail',
+        'phone',
+        'isAdult',
+        'vehicleTypeID',
+        'dateTime',
+        'servicesID',
+        'contractConfirmation',
+        'flightNumber',
+        'landingTime',
+        'companyID',
+        'reservationConfirmation',
+        'totalPrice'
+    ];
 }
