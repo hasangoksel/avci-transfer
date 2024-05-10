@@ -4,6 +4,7 @@ use App\Http\Controllers\AircraftCompanyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VehicleTypeController;
 
@@ -32,3 +33,4 @@ Route::get('/aircraft-company',[AircraftCompanyController::class,'index']);
 //Dalaman havalimanına göre varış noktalarıı döndürür.
 Route::get('/start-airport',[ServiceController::class,'indexByAirport']);
 Route::post('/point-price',[ServiceController::class,'pointByPrice']);
+Route::post('/reservation',[ReservationController::class,'store']);
