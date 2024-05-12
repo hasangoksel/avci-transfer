@@ -17,6 +17,7 @@ class Reservation extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
+    //Bire bir ilişkiler kurulur.
     public function services(): HasOne
     {
         return $this->hasOne(Service::class, 'servicesID', 'servicesID');
@@ -42,6 +43,7 @@ class Reservation extends Model
         return $this->hasOne(AircraftCompany::class, 'companyID', 'companyID');
     }
 
+    //Boş geçilemeyenler belirtilir.
     protected $fillable = [
         'reservationNo',
         'nameSurname',
