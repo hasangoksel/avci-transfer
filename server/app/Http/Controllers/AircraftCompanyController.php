@@ -12,6 +12,7 @@ class AircraftCompanyController extends Controller
      */
     public function index()
     {
+        //Hava yolu firmaları tablosundaki değerlerden yalnızca companyName olanları almak.
         $company = AircraftCompany::all()->pluck('companyName');
         if(!$company){
             return response()->json(['error'=>'Uçak Firması Bulunamadı!'], 404);

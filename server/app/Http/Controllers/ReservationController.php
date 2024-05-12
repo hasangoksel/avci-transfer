@@ -31,6 +31,7 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
+        //Front'ta belirtilen key'leri kendi değişkenlerimize atıyoruz. 
         $aircraftCompany = $request->input('aircraftCompany');
         $arrivalPoint = $request->input('arrivalPoint');
         $departurePoint = $request->input('departurePoint');
@@ -39,30 +40,35 @@ class ReservationController extends Controller
         $price = $request->input('price');
         $reservConfirm = $request->input('reservConfirm');
 
+        //Datetime'dan gelen değeri sql'e kaydetmek için formatını değiştiriyoruz.
         $selectedDateTime = $request->input('selectedDateTime');
         $selectedDateTime = str_replace('T', ' ', $selectedDateTime).":00";
 
         $travellers = $request->input('travellers');
         $vehicle = $request->input('vehicle');
     
+        //Veri tabanında bulunan sütunlar ile front'ta belirtilenler arasında ilişki kurup servicesID'ye göre alma işlemi.
         $servicesID = Service::where('startingPoint', $departurePoint)
             ->where('arrivalPoint', $arrivalPoint)
             ->pluck('servicesID')
             ->first();
-    
+        
+        //Veri tabanında bulunan sütun ile front'ta belirtilen arasında ilişki kurup vehicleTypeID'ye göre alma işlemi.
         $vehicleID = VehicleType::where('type', $vehicle)
             ->pluck('vehicleTypeID')
             ->first();
     
+        //Veri tabanında bulunan sütun ile front'ta belirtilen arasında ilişki kurup companyID'ye göre alma işlemi.
         $companyID = AircraftCompany::where('companyName', $aircraftCompany)
             ->pluck('companyID')
             ->first();
             
+            //ReservationNo belirlemek için travellers'a girilen ad soyad değerindeki ilk 2 harfi alıp yanına 7 haneli random sayı üretiyoruz.
             $first_two_letters = strtoupper(substr($travellers[0]['nameSurname'], 0, 2));
             $last_four_digits = sprintf("%07d", rand(0, 9999999));
             $reservationNo = $first_two_letters.$last_four_digits;
 
-
+        //Kontroller ve veri tabanına kayıt işlemleri.
         foreach ($travellers as $index => $traveller) { 
             $newReservation = new Reservation();
             $newReservation->reservationNo = $reservationNo;
@@ -82,9 +88,22 @@ class ReservationController extends Controller
             $newReservation->dateTime = $selectedDateTime;
             $newReservation->save();
         }
-    
+        //Geri dönüş işlemleri.
         return response()->json(['success' => 'Rezervasyon başarıyla kaydedildi!'], 200);
     }
+    public function deleteReservation($reservationNo)
+    {
+        // Belirtilen rezervasyon numarasına sahip tüm rezervasyonları sil
+        $deletedRows = Reservation::where('reservationNo', $reservationNo)->delete();
+    
+        // Eğer silinen bir kayıt yoksa veya belirtilen rezervasyon numarasına sahip hiçbir rezervasyon yoksa hata döndür
+        if ($deletedRows == 0) {
+            return response()->json(['error' => 'Belirtilen rezervasyon bulunamadı.'], 404);
+        }
+    
+        return response()->json(['success' => 'Rezervasyonlar başarıyla silindi!'], 200);
+    }
+    
     
     /**
      * Display the specified resource.
