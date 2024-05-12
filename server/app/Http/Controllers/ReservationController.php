@@ -91,6 +91,19 @@ class ReservationController extends Controller
         //Geri dönüş işlemleri.
         return response()->json(['success' => 'Rezervasyon başarıyla kaydedildi!'], 200);
     }
+    public function deleteReservation($reservationNo)
+    {
+        // Belirtilen rezervasyon numarasına sahip tüm rezervasyonları sil
+        $deletedRows = Reservation::where('reservationNo', $reservationNo)->delete();
+    
+        // Eğer silinen bir kayıt yoksa veya belirtilen rezervasyon numarasına sahip hiçbir rezervasyon yoksa hata döndür
+        if ($deletedRows == 0) {
+            return response()->json(['error' => 'Belirtilen rezervasyon bulunamadı.'], 404);
+        }
+    
+        return response()->json(['success' => 'Rezervasyonlar başarıyla silindi!'], 200);
+    }
+    
     
     /**
      * Display the specified resource.

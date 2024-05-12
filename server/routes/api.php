@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AircraftCompanyController;
+use App\Http\Controllers\CodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
@@ -34,3 +35,7 @@ Route::get('/aircraft-company',[AircraftCompanyController::class,'index']);
 Route::get('/start-airport',[ServiceController::class,'indexByAirport']);
 Route::post('/point-price',[ServiceController::class,'pointByPrice']);
 Route::post('/reservation',[ReservationController::class,'store']);
+//6 Haneli rastgele kod üreten -c route
+Route::get('/generate-code',[CodeController::class,'generate']);
+//Gönderilen rezervasyon no'ya göre silme
+Route::delete('/reservations/{reservationNo}',[ReservationController::class,'deleteReservation']);
