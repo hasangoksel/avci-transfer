@@ -39,3 +39,5 @@ Route::post('/reservation',[ReservationController::class,'store']);
 Route::get('/generate-code',[CodeController::class,'generate']);
 //Gönderilen rezervasyon no'ya göre silme
 Route::delete('/reservations/{reservationNo}',[ReservationController::class,'deleteReservation']);
+//Gönderilen rezervasyon no'ya göre rezervasyon bilgilerini getirme
+Route::get('/getByReservation/{reservartionNo}',[ReservationController::class,'getByReservationNo']);
