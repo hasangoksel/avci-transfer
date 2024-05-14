@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\VehicleType;
 
+use function Laravel\Prompts\error;
+
 class ReservationController extends Controller
 {
     /**
@@ -102,6 +104,40 @@ class ReservationController extends Controller
         }
     
         return response()->json(['success' => 'Rezervasyonlar başarıyla silindi!'], 200);
+    }
+    public function getByReservationNo($reservationNo)
+    {
+        $reservations = Reservation::where('reservationNo',$reservationNo)->get();
+        if($reservations->isEmpty())
+        {
+            return response()->json(['error'=> 'Belirtilen rezervasyon bulunamadı!'],404);
+        }
+        $responseData = [];
+        foreach($reservations as $reservation)
+        {
+            $vehicleType = VehicleType::find($reservation->vehicleTypeID);
+            $services = Service::find($reservation->servicesID);
+            $company = AircraftCompany::find($reservation->companyID);
+
+            $responseData[] = [
+                'reservationNo' => $reservation->reservationNo,
+                'nameSurname' => $reservation->nameSurname,
+                'mail' => $reservation->mail,
+                'phone' => $reservation->phone,
+                'isAdult' => $reservation->isAdult,
+                'type' => $vehicleType->type,
+                'service_type' => $vehicleType->service_type,
+                'dateTime' => $reservation->dateTime,
+                'startingPoint' => $services->startingPoint,
+                'arrivalPoint' => $services->arrivalPoint,
+                'flightNumber' => $reservation->flightNumber,
+                'landingTime' => $reservation->landingTime,
+                'companyName' => $company->companyName,
+                'pickUpAdress' => $reservation->pickUpAdress,
+                'totalPrice' => $reservation->totalPrice,
+            ];
+        }
+        return response()->json(['success'=> 'Rezervasyon başarıyla bulundu!','data' => $responseData],200);
     }
     
     

@@ -43,6 +43,12 @@ class Reservation extends Model
         return $this->hasOne(AircraftCompany::class, 'companyID', 'companyID');
     }
 
+    //Yetişkin ya da çocuk olduğunun yazdırılması.
+    public function getIsAdultAttribute($value)
+    {
+        return $value ? 'Yetişkin' : 'Çocuk';
+    }
+
     //Boş geçilemeyenler belirtilir.
     protected $fillable = [
         'reservationNo',
