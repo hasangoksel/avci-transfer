@@ -11,6 +11,10 @@ use App\Models\AircraftCompany;
 
 class Reservation extends Model
 {
+
+    protected $primaryKey = 'reservationID'; // Birincil anahtar olarak reservationID kullanılıyor
+    public $incrementing = false;  // Eğer reservationID auto-increment değilse
+
     use HasFactory;
     /**
      * Get the user associated with the Reservation

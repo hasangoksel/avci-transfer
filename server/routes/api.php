@@ -41,3 +41,5 @@ Route::get('/generate-code',[CodeController::class,'generate']);
 Route::delete('/reservations/{reservationNo}',[ReservationController::class,'deleteReservation']);
 //Gönderilen rezervasyon no'ya göre rezervasyon bilgilerini getirme
 Route::get('/getByReservation/{reservartionNo}',[ReservationController::class,'getByReservationNo']);
+//Gönderilen rezervasyon no'ya göre rezervasyon bilgilerini güncelleme
+Route::put('/updateByReservation/{reservationNo}',[ReservationController::class,'updateByReservationNo']);
