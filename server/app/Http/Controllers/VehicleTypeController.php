@@ -25,6 +25,19 @@ class VehicleTypeController extends Controller
         }
     }
 
+    //Araçlara ait olan fiyat değerleri
+    public function getPriceByVehicleTypeID($vehicleTypeID)
+    {
+        $vehicleType = VehicleType::find($vehicleTypeID);
+
+        if (!$vehicleType) {
+            return response()->json(['error' => 'Belirtilen araç türü bulunamadı!'], 404);
+        }
+
+        return response()->json(['price' => $vehicleType->price]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */

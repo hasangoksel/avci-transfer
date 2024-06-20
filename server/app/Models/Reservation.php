@@ -67,6 +67,7 @@ class Reservation extends Model
         'flightNumber',
         'landingTime',
         'companyID',
+        'pickUpAdress',
         'reservationConfirmation',
         'totalPrice'
     ];

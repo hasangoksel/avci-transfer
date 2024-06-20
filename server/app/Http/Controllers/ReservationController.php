@@ -142,14 +142,14 @@ class ReservationController extends Controller
         return response()->json(['success'=> 'Rezervasyon başarıyla bulundu!','data' => $responseData],200);
     }
 
-    public function updateByReservationNo(Request $request, $reservationNo)
+    public function updateByReservationNo(Request $request, $reservationNo, $reservationID)
     {
-        $reservation = Reservation::where('reservationNo',$reservationNo)->first();
+        $reservation = Reservation::where('reservationNo',$reservationNo)->where('reservationID',$reservationID)->first();
         if(!$reservation){
             return response()->json(['error'=>'Belirtilen rezervasyon bulunamadı!'],404);
         }
 
-        $input = $request->all();
+        $input = $request->all();   
         $reservation->update($input);
 
         $vehicleType = VehicleType::find($reservation->vehicleTypeID);

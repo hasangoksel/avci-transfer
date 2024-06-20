@@ -24,22 +24,32 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+//Conctact
 Route::post('/message',[ContactController::class, 'store']);
 
-//Araçların paylaşımlı ya da özel olup olmadığını döndürür
+
+//Vehicle Types with Service Types
 Route::get('/vehicle-type/service-type/{type}',[VehicleTypeController::class, 'indexByServiceType']);
-//Uçak firmalarını döndürür.
+
+//Price by Vehicle Types
+Route::get('/vehicle-type/price/{vehicleTypeID}', [VehicleTypeController::class, 'getPriceByVehicleTypeID']);
+
+//Aircraft Compaines
 Route::get('/aircraft-company',[AircraftCompanyController::class,'index']);
-//Dalaman havalimanına göre varış noktalarıı döndürür.
+
+
+//Index By Airport (Dalaman Airport)
 Route::get('/start-airport',[ServiceController::class,'indexByAirport']);
+
+//Get prices based on departure and arrival points
 Route::post('/point-price',[ServiceController::class,'pointByPrice']);
-Route::post('/reservation',[ReservationController::class,'store']);
-//6 Haneli rastgele kod üreten -c route
-Route::get('/generate-code',[CodeController::class,'generate']);
-//Gönderilen rezervasyon no'ya göre silme
-Route::delete('/reservations/{reservationNo}',[ReservationController::class,'deleteReservation']);
-//Gönderilen rezervasyon no'ya göre rezervasyon bilgilerini getirme
+
+//Reservations
+Route::post('/reservation',        [ReservationController::class,'store']);
+Route::put('/updateByReservation/{reservationNo}/{reservationID}', [ReservationController::class,'updateByReservationNo']);
 Route::get('/getByReservation/{reservartionNo}',[ReservationController::class,'getByReservationNo']);
-//Gönderilen rezervasyon no'ya göre rezervasyon bilgilerini güncelleme
-Route::put('/updateByReservation/{reservationNo}',[ReservationController::class,'updateByReservationNo']);
+Route::delete('/reservations/{reservationNo}',[ReservationController::class,'deleteReservation']);
+
+
+//-c route generates 6-digit random code
+Route::get('/generate-code',[CodeController::class,'generate']);
