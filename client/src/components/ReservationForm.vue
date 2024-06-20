@@ -34,7 +34,7 @@
                         </div>
                         <div>
                             <input type="radio" id="special" v-model="transferType" name="transferType" value="Özel">
-                        <label for="special">Özel</label><br>
+                            <label for="special">Özel</label><br>
                         </div>
                     </div>
                     <div class="reservation-form__element">
@@ -50,22 +50,21 @@
                     </div>
                     <div class="reservation-form__element">
                         <label for="date">Tarih</label>
-                        <input type="datetime-local" name="date" id="date" :min="minDateTime"
-                        v-model="reservationData.selectedDateTime" />
+                        <input type="datetime-local" name="date" id="date" :min="minDateTime" v-model="reservationData.selectedDateTime" />
                     </div>
                     <div class="reservation-form__element">
                         <label for="departure">Kalkış Noktası</label>
                         <select name="departure" id="departure" v-model="reservationData.departurePoint">
-                            <option value="0">Lütfen Seçiniz...</option>
-                            <option v-for="item in departure" :key="item" :value="item">{{ item }}</option>
-                        </select>
+                                <option value="Lütfen Seçiniz">Lütfen Seçiniz...</option>
+                                <option v-for="item in departure" :key="item" :value="item">{{ item }}</option>
+                            </select>
                     </div>
                     <div class="reservation-form__element">
                         <label for="arrival">Varış Noktası</label>
                         <select name="arrival" id="arrival" v-model="reservationData.arrivalPoint">
-                            <option value="0">Lütfen Seçiniz...</option>
-                            <option v-for="item in arrival" :key="item" :value="item">{{ item }}</option>
-                        </select>
+                                <option value="Lütfen Seçiniz">Lütfen Seçiniz...</option>
+                                <option v-for="item in arrival" :key="item" :value="item">{{ item }}</option>
+                            </select>
                     </div>
                     <div class="reservation-form__element">
                         <label for="count">Kişi Sayısı</label>
@@ -80,10 +79,10 @@
                     <div class="reservation-form__element__vehicleType" v-for="item in vehicleType" :key="item.vehicleTypeID">
                         <input type="radio" :id="item.vehicleTypeID" name="vehicle" v-model="reservationData.vehicle" :value="item.type">
                         <label :for="item.vehicleTypeID" class="vehicle-type__name">
-                            <div class="vehicle-type__image">Foto</div>
-                            {{ item.type }}
-                            <span class="vehicle-type__price">{{ price * count }}</span>
-                        </label>
+                                <div class="vehicle-type__image">Foto</div>
+                                {{ item.type }}
+                                <span class="vehicle-type__price">{{ price * count }}</span>
+                            </label>
                     </div>
                     <div class="reservation-form__button">
                         <span class="c-button" @click="cTwoClick">Devam Et</span>
@@ -108,10 +107,10 @@
                         <div class="reservation-form__element">
                             <label for="age-{{ index }}">Yaş Kategorisi</label>
                             <select :id="'age-' + index" v-model="traveller.age">
-                                <option value="">Lütfen seçiniz...</option>
-                                <option value="adult">Yetişkin</option>
-                                <option value="child">Çocuk</option>
-                            </select>
+                                    <option value="">Lütfen seçiniz...</option>
+                                    <option value="adult">Yetişkin</option>
+                                    <option value="child">Çocuk</option>
+                                </select>
                         </div>
                         <div class="reservation-form__element" v-if="index === 0">
                             <label for="address-{{ index }}">Alınacak Adres</label>
@@ -127,9 +126,9 @@
                     <div class="reservation-form__element">
                         <label for="airlineCompany">Havayolu Şirketi</label>
                         <select name="aircraftCompany" id="aircraftCompany" v-model="reservationData.aircraftCompany">
-                            <option value="0">Lütfen Seçiniz</option>
-                            <option v-for="item in aircraftCompanies" :key="item" :value="item">{{ item }}</option>
-                        </select>
+                                <option value="0">Lütfen Seçiniz</option>
+                                <option v-for="item in aircraftCompanies" :key="item" :value="item">{{ item }}</option>
+                            </select>
                     </div>
                     <div class="reservation-form__element">
                         <label for="flightNumber">Uçuş Numarası</label>
@@ -147,7 +146,7 @@
                     <h3>Rezervasyon Onayı</h3>
                     <div class="reservation-form__element">
                         <label for="confirmation">Lütfen +90 (5***) *** *1 11 telefona gelen onay kodunu giriniz:
-                        </label>
+                            </label>
                         <input type="number" name="confirmation" id="confirmation">
                     </div>
                     <div class="reservation-form__button">
@@ -155,7 +154,27 @@
                     </div>
                 </div>
             </div>
-            <div class="reservation-form__preview"></div>
+            <div class="reservation-form__preview">
+                <h2>Önizleme</h2>
+                <table>
+                    <tr>
+                        <td>Kalkış Noktası:</td>
+                        <td>{{ reservationData.departurePoint }}</td>
+                    </tr>
+                    <tr>
+                        <td>Varış Noktası:</td>
+                        <td>{{ reservationData.arrivalPoint }}</td>
+                    </tr>
+                    <tr>
+                        <td>Kişi Sayısı:</td>
+                        <td>{{ count }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{ reservationData.price }}₺</td>
+                    </tr>
+                </table>
+            </div>
         </form>
     </div>
 </template>
@@ -166,16 +185,16 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            reservationData:{
-                departurePoint: 0,
-                arrivalPoint: 0,
+            reservationData: {
+                departurePoint: 'Lütfen Seçiniz',
+                arrivalPoint: 'Lütfen Seçiniz',
                 selectedDateTime: '',
                 vehicle: 1,
                 aircraftCompany: 0,
                 flightNumber: '',
                 flightTime: '',
                 travellers: null,
-                reservConfirm : true,
+                reservConfirm: true,
                 price: 0
             },
             direction: null,
@@ -207,17 +226,17 @@ export default {
                 age: '',
             }));
         },
-        transferType(){
+        transferType() {
             axios.get('http://127.0.0.1:8000/api/vehicle-type/service-type/' + this.transferType)
-              .then(res => {
-                this.vehicleType = res.data.service_type;
-              });
+                .then(res => {
+                    this.vehicleType = res.data.service_type;
+                });
         },
-        direction(){
-            if(this.direction == 'airportToArea'){
+        direction() {
+            if (this.direction == 'airportToArea') {
                 this.departure = ['Dalaman Havalimanı'];
                 this.arrival = this.areas;
-            }else if(this.direction == 'areaToAirport'){
+            } else if (this.direction == 'areaToAirport') {
                 this.departure = this.areas;
                 this.arrival = ['Dalaman Havalimanı'];
             }
@@ -227,14 +246,14 @@ export default {
     mounted() {
         this.setMinDateTime();
         axios.get('http://127.0.0.1:8000/api/start-airport')
-              .then(res => {
+            .then(res => {
                 this.areas = res.data.startAirport;
                 this.arrival = this.areas;
-        })
+            })
         axios.get('http://127.0.0.1:8000/api/aircraft-company')
-              .then(res => {
+            .then(res => {
                 this.aircraftCompanies = res.data;
-        });
+            });
     },
     methods: {
         setMinDateTime() {
@@ -246,7 +265,7 @@ export default {
             const minutes = String(now.getMinutes()).padStart(2, '0');
             this.minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
         },
-        cOneClick(){
+        cOneClick() {
             this.cOne = false;
             this.cTwo = true;
             this.cThree = false;
@@ -257,26 +276,26 @@ export default {
                 arrivalPoint: this.reservationData.arrivalPoint
             }
             axios.post('http://127.0.0.1:8000/api/point-price', points)
-              .then(res => {
-                this.price = res.data.price;
-            });
+                .then(res => {
+                    this.price = res.data.price;
+                });
             console.log(this.transferType);
         },
-        cTwoClick(){
+        cTwoClick() {
             this.cOne = false;
             this.cTwo = false;
             this.cThree = true;
             this.cFour = false;
             this.cFive = false;
         },
-        cThreeClick(){
+        cThreeClick() {
             this.cOne = false;
             this.cTwo = false;
             this.cThree = false;
             this.cFour = true;
             this.cFive = false;
         },
-        cFourClick(){
+        cFourClick() {
             this.cOne = false;
             this.cTwo = false;
             this.cThree = false;
@@ -286,7 +305,7 @@ export default {
             this.reservationData.travellers = this.travellers;
             console.log(this.reservationData);
         },
-        cFiveClick(){
+        cFiveClick() {
             this.cOne = true;
             this.cTwo = false;
             this.cThree = false;
@@ -298,39 +317,53 @@ export default {
 </script>
 
 <style scoped>
-.reservation-form-nav{
+.reservation-form-container {
+    width: 90%;
+    margin: 3% 5%;
+    padding: 2%;
+    border-radius: 20px;
+}
+
+.reservation-form-nav {
     width: 80%;
     margin: 0 10%;
     display: flex;
-    justify-content: space-between ;
+    justify-content: space-between;
     align-items: center;
 }
-.reservation-form-nav__stage{
+
+.reservation-form-nav__stage {
     height: 4rem;
     display: flex;
     align-items: center;
 }
-.reservation-form-nav__stage i{
+
+.reservation-form-nav__stage i {
     font-size: 1.6rem;
     margin-right: 12px;
     color: #ddbc04;
 }
-.reservation-form{
+
+.reservation-form {
     width: 80%;
     margin: 3% 10%;
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-around;
 }
-.reservation-form__data{
-    width: 50%;
+
+.reservation-form__data {
+    width: 70%;
+    margin-left: 5%;
 }
-.reservation-form__element{
+
+.reservation-form__element {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-top: 1%;
 }
-.reservation-form__element input{
+
+.reservation-form__element input {
     width: 50%;
     height: 2rem;
     font-size: 1rem;
@@ -340,7 +373,8 @@ export default {
     padding-right: 1%;
     border: 1px solid gray;
 }
-.reservation-form__element select{
+
+.reservation-form__element select {
     width: 50%;
     height: 2rem;
     font-size: 1rem;
@@ -348,19 +382,22 @@ export default {
     padding-left: 1%;
     padding-right: 1%;
 }
-.reservation-form__element div input{
+
+.reservation-form__element div input {
     width: 20px;
     margin-right: .28rem;
     height: 1rem;
     font-size: 1rem;
 }
-.reservation-form__button{
+
+.reservation-form__button {
     margin-top: 3%;
     width: 50%;
     display: flex;
     justify-content: end;
 }
-.reservation-form__button span{
+
+.reservation-form__button span {
     border: 1px solid #000;
     padding: 1.8% 5%;
     border-radius: 5px;
@@ -368,10 +405,40 @@ export default {
     color: #ddbc04;
     transition: background .2s ease;
 }
-.reservation-form__button span:hover{
+
+.reservation-form__button span:hover {
     cursor: pointer;
     background: #ddbc04;
     color: black;
     border-color: #ddbc04;
+}
+
+.reservation-form__preview {
+    width: 31%;
+    height: 250px;
+    margin-right: 5%;
+    padding: 3% 2%;
+    background: #ddbc04;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.reservation-form__preview h2{
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.reservation-form__preview table{
+    width: 100%;
+    margin-top: 5%;
+}
+.reservation-form__preview tr :nth-child(1){
+    font-weight: 500;
+    font-size: .9rem;
+}
+.reservation-form__preview table :nth-child(4){
+    text-align: right;
+    font-size: 1.4rem;
 }
 </style>
