@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('vehicleTypeID');
             $table->string('type');
             $table->string('service_type');
+            $table->decimal('price',10,2);
             $table->timestamps();
         });
 

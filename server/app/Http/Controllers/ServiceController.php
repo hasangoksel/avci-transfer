@@ -16,6 +16,7 @@ class ServiceController extends Controller
     }
     public function indexByAirport()
     {
+        //Tabloda başlangıç noktası seçtik ve ona göre varış noktalarını aldık.
        $startAirport = Service::where('startingPoint', 'Dalaman Havalimanı')->pluck('arrivalPoint');
         if ($startAirport->isEmpty()) {
             return response()->json(['error' => 'Başlangıç Noktası Hatalı!'], 404);
@@ -26,6 +27,7 @@ class ServiceController extends Controller
     }
     public function pointByPrice(Request $request)
     {
+        //kalkış ve varış noktalarına göre yetişkin fiyatı aldık.
         $startingPoint = $request->input('startingPoint');
         $arrivalPoint = $request->input('arrivalPoint');
         $price = Service::where('startingPoint', $startingPoint)

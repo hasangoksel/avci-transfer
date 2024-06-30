@@ -4,9 +4,9 @@
             <span @click="closeMenu"><i class="fa-solid fa-xmark"></i></span>
             <ul>
                 <li><a href="#" @click="closeMenu"><i class="fa-solid fa-house"></i>Anasayfa</a></li>
-                <li><a href="#about" @click="closeMenu"><i class="fa-solid fa-car"></i>Hakkımızda</a></li>
-                <li><a href="#our-menu" @click="closeMenu"><i class="fa-solid fa-arrow-right-arrow-left"></i>Rezervasyon</a></li>
-                <li><a href="#reserve" @click="closeMenu"><i class="fa-solid fa-envelope"></i>Bize Ulaşın</a></li>
+                <li><a href="#about-us" @click="closeMenu"><i class="fa-solid fa-car"></i>Hakkımızda</a></li>
+                <li><a href="#reservation" @click="closeMenu"><i class="fa-solid fa-arrow-right-arrow-left"></i>Rezervasyon</a></li>
+                <li><a href="#contact-us" @click="closeMenu"><i class="fa-solid fa-envelope"></i>Bize Ulaşın</a></li>
             </ul>
         </div>
         <nav>

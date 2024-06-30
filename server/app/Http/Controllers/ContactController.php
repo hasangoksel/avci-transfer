@@ -28,11 +28,13 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        //Front'ta belirtilen key'leri kendi değişkenlerimize atıyoruz.
         $nameSurname  = $request->input('nameSurname');
         $email        = $request->input('email');
         $subject      = $request->input('subject');
         $message      = $request->input('message');
 
+        //Validation işlemleri.
         if (empty($nameSurname)) {
             return response()->json(['error' => 'Ad-soyad zorunludur!'], 400);
         }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -42,6 +44,7 @@ class ContactController extends Controller
         }elseif (empty($message)) {
             return response()->json(['error' => 'Bu alan boş bırakılamaz!'], 400);
         } else {
+            //Veri tabanına kaydetme işlemleri.
             $newMessage = new Contact;
             $newMessage -> nameSurname = $nameSurname;
             $newMessage -> email       = $email;
@@ -49,7 +52,8 @@ class ContactController extends Controller
             $newMessage -> message     = $message;
             $newMessage -> save();
 
-            return response()->json(['success' => 'Mesaj başarı ile gönderildi!', 'newMessage' => $newMessage], 200);
+            //Geri dönüş mesajı.
+            return response()->json(['success' => true , 'newMessage' => $newMessage], 200);
         }
     }
 

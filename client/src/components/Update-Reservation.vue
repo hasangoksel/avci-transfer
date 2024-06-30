@@ -3,19 +3,49 @@
         <div class="logo">
             <img src="../assets/avci-transfer-black.svg" alt="Avcı Transfer Logosu">
         </div>
-        <form>
+        <form @submit.prevent="checkReservation">
             <h3>Rezervasyon Bilgilerini Güncelle</h3>
+            <span v-if="error" style="margin: 1% 0;"><i class="fa-solid fa-circle-exclamation"></i> Rezervasyonunuz bulunamadı.</span>
+            <span v-if="errorTwo" style="margin: 1% 0;"><i class="fa-solid fa-circle-exclamation"></i> Lütfen rezervasyon numaranızı giriniz!</span>
             <input type="text" v-model="reservationNumber" placeholder="Rezervasyon Numaranızı Giriniz">
-            <button>Güncelle</button>
+            <button type="submit">Sorgula</button>
         </form>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
-            reservationNumber: null
+            reservationNumber: null,
+            error: false,
+            errorTwo: false,
+        }
+    },
+    methods: {
+        checkReservation() {
+            if (!this.reservationNumber) {
+                this.errorTwo = true;
+                return;
+            }
+
+            axios.get(`http://127.0.0.1:8000/api/getByReservation/${this.reservationNumber}`)
+            .then(response => {
+                // Başarılı yanıt durumunda yapılacak işlemler
+                if (response.data.success) {
+                    this.error = false;
+                    this.errorTwo = false;
+                    // Rezervasyon varsa yönlendir
+                    this.$router.push(`/update-reservation/${this.reservationNumber}`);
+                } else if(!response.data.success){
+                    alert('Belirtilen rezervasyon numarası bulunamadı.');
+                }
+            }).catch(error => {
+                // Hata durumunda yapılacak işlemler
+                this.error = true;
+            });;
         }
     }
 }

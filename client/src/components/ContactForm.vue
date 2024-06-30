@@ -7,6 +7,9 @@
             <div class="contact-form-title">
                 <h2>Bize Ulaşın</h2>
             </div>
+            <div class="contact-form__error" v-if="error">
+                <span><i class="fa-solid fa-circle-exclamation"></i> Lütfen tüm alanları doldurunuz.</span>
+            </div>
             <div class="contact-form-element">
                 <label for="nameSurname">Ad Soyad</label>
                 <input v-model="nameSurname" type="text" name="nameSurname" id="nameSurname">
@@ -40,17 +43,32 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            nameSurname: "deneme",
-            email: "deneme@gmail.com",
+            nameSurname: "",
+            email: "",
             subjects: ["Yorum", "Şikayet", "Öneri", "İstek"],
-            subject: "Yorum",
-            message: "deenemeddeneme",
-            result: null
+            subject: "",
+            message: "",
+            result: null,
+            error: false
         }
     },
     methods: {
+        validateMessageData() {
+            if (
+                this.nameSurname === '' ||
+                this.email === '' ||
+                this.subject === '' ||
+                this.message === '' 
+            ) {
+                this.error = true;
+                return false;
+            }
+            this.error = false;
+            return true;
+        },
         messageSubmit() {
-            const messageData = {
+            if(this.validateMessageData()){
+                const messageData = {
                 nameSurname: this.nameSurname,
                 email: this.email,
                 subject: this.subject,
@@ -58,8 +76,29 @@ export default {
             }
             axios.post('http://127.0.0.1:8000/api/message', messageData)
                 .then(res => {
-                    console.log(res.data);
+                    if (res.data.success) {
+                            Swal.fire({
+                                title: "Mesajınız Gönderildi!",
+                                icon: "success",
+                                confirmButtonText: 'Tamam',
+                                confirmButtonColor: '#000'
+                            }).then(() => {
+                                // Swal'dan Tamam'a tıkladıktan sonra sayfayı yenile
+                                location.reload();
+                            });
+                            this.switchToStep(1);
+                        } else {
+                            Swal.fire({
+                                title: "Bir Hata Oluştu.",
+                                text: "Lütfen tekrar deneyiniz.",
+                                icon: "error",
+                                confirmButtonText: 'Tamam',
+                                confirmButtonColor: '#000'
+                            });
+                        }
                 });
+            }
+          
         }
     },
 };
@@ -301,5 +340,27 @@ export default {
     margin-top: 4%;
     width: 50%;
 }
+}
+.contact-form__error {
+    margin: 0 0 2% 0;
+    background: #ddbc04;
+    border-radius: 10px;
+    width: 40%;
+    padding: 2% 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-form__error span {
+    font-size: .9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-form__error span i {
+    font-size: 1.2rem;
+    margin-right: 10px;
 }
 </style>
